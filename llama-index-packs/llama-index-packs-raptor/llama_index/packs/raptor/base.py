@@ -125,7 +125,7 @@ class RaptorRetriever(BaseRetriever):
         super().__init__(
             **kwargs,
         )
-
+        print("-----------------Optimized batch embeddings-----------------")
         self.mode = mode
         self.summary_module = summary_module or SummaryModule(llm=llm)
         self.index = existing_index or VectorStoreIndex(
