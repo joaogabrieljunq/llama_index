@@ -30,7 +30,9 @@ from llama_index.core.vector_stores.types import (
     BasePydanticVectorStore,
 )
 from llama_index.packs.raptor.clustering import get_clusters
+import torch
 
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 DEFAULT_SUMMARY_PROMPT = (
     "Summarize the provided text, including as many key details as needed."
@@ -174,9 +176,12 @@ class RaptorRetriever(BaseRetriever):
             if self._verbose:
                 print(f"Generating embeddings for level {level}.")
 
-            embeddings = await embed_model.aget_text_embedding_batch(
-                [node.get_content(metadata_mode="embed") for node in cur_nodes]
+            embeddings = embed_model.get_text_embedding_batch(
+                cur_nodes,
+                device=device,
+                show_progress=True
             )
+
             assert len(embeddings) == len(cur_nodes)
             id_to_embedding = {
                 node.id_: embedding for node, embedding in zip(cur_nodes, embeddings)
