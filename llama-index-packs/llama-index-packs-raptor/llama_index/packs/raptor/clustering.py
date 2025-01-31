@@ -20,6 +20,7 @@ random.seed(RANDOM_SEED)
 
 
 def global_cluster_embeddings(
+    print("-----------------Optimized GPU clustering-----------------")
     embeddings: np.ndarray,
     dim: int,
     n_neighbors: Optional[int] = None,
