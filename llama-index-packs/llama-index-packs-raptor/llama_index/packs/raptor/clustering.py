@@ -7,7 +7,7 @@ Full credits to the original authors!
 import numpy as np
 import random
 import tiktoken
-import umap
+from cuml.manifold import UMAP
 from sklearn.mixture import GaussianMixture
 from typing import Dict, List, Optional
 
@@ -27,7 +27,7 @@ def global_cluster_embeddings(
 ) -> np.ndarray:
     if n_neighbors is None:
         n_neighbors = int((len(embeddings) - 1) ** 0.5)
-    return umap.UMAP(
+    return UMAP(
         n_neighbors=n_neighbors, n_components=dim, metric=metric
     ).fit_transform(embeddings)
 
